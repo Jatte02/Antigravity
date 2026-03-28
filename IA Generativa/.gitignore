@@ -1,0 +1,76 @@
+# ============================================================
+# Python
+# ============================================================
+# Compiled bytecode — Python generates these automatically.
+__pycache__/
+*.pyc
+*.pyo
+
+# Packaging
+*.egg-info/
+dist/
+build/
+
+# ============================================================
+# Virtual environments
+# ============================================================
+# Contains ALL installed libraries (pandas, streamlit, etc.).
+# Can weigh 500MB+. Each person recreates with: pip install -e ".[dev]"
+.venv/
+venv/
+env/
+
+# ============================================================
+# Generated data
+# ============================================================
+# Training dataset is regenerated with: make dataset
+# Can be hundreds of MB. Does not belong in Git.
+data/
+
+# ============================================================
+# Trained models
+# ============================================================
+# ML artifacts are regenerated with: make train
+# .pkl files weigh tens of MB. Do not belong in Git.
+models/
+
+# ============================================================
+# Claude Code (local configuration)
+# ============================================================
+.claude/
+
+# ============================================================
+# Environment variables
+# ============================================================
+# Contains API keys, passwords, sensitive configuration.
+# NEVER committed to Git. Only .env.example is tracked as a template.
+.env
+
+# ============================================================
+# IDE and editors
+# ============================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ============================================================
+# Operating system
+# ============================================================
+# macOS creates .DS_Store in every folder opened in Finder.
+# Windows creates Thumbs.db for thumbnails.
+.DS_Store
+Thumbs.db
+
+# ============================================================
+# Jupyter
+# ============================================================
+.ipynb_checkpoints/
+
+# ============================================================
+# Testing and linting cache
+# ============================================================
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+.coverage
