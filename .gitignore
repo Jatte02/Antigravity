@@ -1,53 +1,53 @@
 # ============================================================
 # Python
 # ============================================================
-# Compiled bytecode — Python generates these automatically.
+# Bytecode compilado — Python los genera automáticamente.
 __pycache__/
 *.pyc
 *.pyo
 
-# Packaging
+# Empaquetado
 *.egg-info/
 dist/
 build/
 
 # ============================================================
-# Virtual environments
+# Entornos virtuales
 # ============================================================
-# Contains ALL installed libraries (pandas, streamlit, etc.).
-# Can weigh 500MB+. Each person recreates with: pip install -e ".[dev]"
+# Contiene TODAS las librerías instaladas (pandas, streamlit, etc.).
+# Puede pesar más de 500MB. Cada persona lo recrea con: pip install -e ".[dev]"
 .venv/
 venv/
 env/
 
 # ============================================================
-# Generated data
+# Datos generados
 # ============================================================
-# Training dataset is regenerated with: make dataset
-# Can be hundreds of MB. Does not belong in Git.
+# El dataset de entrenamiento se regenera con: make dataset
+# Puede pesar cientos de MB. No pertenece a Git.
 data/
 
 # ============================================================
-# Trained models
+# Modelos entrenados
 # ============================================================
-# ML artifacts are regenerated with: make train
-# .pkl files weigh tens of MB. Do not belong in Git.
+# Los artefactos de ML se regeneran con: make train
+# Los archivos .pkl pesan decenas de MB. No pertenecen a Git.
 models/
 
 # ============================================================
-# Claude Code (local configuration)
+# Claude Code (configuración local)
 # ============================================================
 .claude/
 
 # ============================================================
-# Environment variables
+# Variables de entorno
 # ============================================================
-# Contains API keys, passwords, sensitive configuration.
-# NEVER committed to Git. Only .env.example is tracked as a template.
+# Contiene claves API, contraseñas, configuración sensible.
+# NUNCA se debe commitear a Git. Solo .env.example se rastrea como plantilla.
 .env
 
 # ============================================================
-# IDE and editors
+# IDEs y editores
 # ============================================================
 .vscode/
 .idea/
@@ -55,10 +55,10 @@ models/
 *.swo
 
 # ============================================================
-# Operating system
+# Sistema operativo
 # ============================================================
-# macOS creates .DS_Store in every folder opened in Finder.
-# Windows creates Thumbs.db for thumbnails.
+# macOS crea .DS_Store en cada carpeta abierta en Finder.
+# Windows crea Thumbs.db para miniaturas.
 .DS_Store
 Thumbs.db
 
@@ -75,7 +75,7 @@ frontend/.next/
 frontend/out/
 
 # ============================================================
-# Testing and linting cache
+# Caché de testing y linting
 # ============================================================
 .pytest_cache/
 .ruff_cache/
@@ -83,7 +83,7 @@ htmlcov/
 .coverage
 
 # ============================================================
-# Additional env files
+# Archivos de entorno adicionales
 # ============================================================
 .env.local
 .env.*.local

@@ -5,41 +5,41 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "marketsense"
 version = "0.1.0"
-description = "AI-powered financial analyst platform using LangGraph agents on AWS Bedrock"
+description = "Plataforma de analista financiero impulsada por IA usando agentes LangGraph en AWS Bedrock"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "Giancarlos" }]
 
 dependencies = [
-    # ── LLM Orchestration ──────────────────────────────────────
+    # ── Orquestación de LLMs ──────────────────────────────────
     "langgraph>=1.1,<2",
     "langchain>=1.2,<2",
-    "langchain-aws",                # LangChain <-> AWS Bedrock integration
-    "langchain-community",          # Document loaders, vector stores, etc.
+    "langchain-aws",                # Integración LangChain <-> AWS Bedrock
+    "langchain-community",          # Cargadores de documentos, vector stores, etc.
 
-    # ── AWS SDK ────────────────────────────────────────────────
+    # ── SDK de AWS ────────────────────────────────────────────
     "boto3",                        # Bedrock Runtime, RDS, S3
 
-    # ── Database ───────────────────────────────────────────────
+    # ── Base de Datos ─────────────────────────────────────────
     "sqlalchemy>=2.0,<3",
-    "psycopg2-binary",              # PostgreSQL driver
+    "psycopg2-binary",              # Driver de PostgreSQL
 
     # ── API ────────────────────────────────────────────────────
     "fastapi",
-    "uvicorn[standard]",            # ASGI server
+    "uvicorn[standard]",            # Servidor ASGI
 
-    # ── Data & Config ──────────────────────────────────────────
+    # ── Datos y Configuración ─────────────────────────────────
     "pydantic>=2.0,<3",
     "python-dotenv",
 
-    # ── RAG / Embeddings ───────────────────────────────────────
-    "faiss-cpu",                    # Local vector store for dev
+    # ── RAG / Embeddings ──────────────────────────────────────
+    "faiss-cpu",                    # Vector store local para desarrollo
 
-    # ── Data & ETL ─────────────────────────────────────────────
+    # ── Datos y ETL ───────────────────────────────────────────
     "pandas",
-    "yfinance",                     # S&P 500 market data
-    "requests",                     # HTTP calls (news APIs, etc.)
+    "yfinance",                     # Datos de mercado del S&P 500
+    "requests",                     # Llamadas HTTP (APIs de noticias, etc.)
 ]
 
 [project.optional-dependencies]
@@ -49,13 +49,13 @@ dev = [
     "ruff>=0.9",
     "jupyter",
     "ipykernel",
-    "httpx",                        # Async test client for FastAPI
+    "httpx",                        # Cliente de pruebas asíncrono para FastAPI
 ]
 
 [tool.setuptools.packages.find]
 include = ["backend*", "tests*"]
 
-# ── Ruff (linter + formatter) ─────────────────────────────────
+# ── Ruff (linter + formateador) ───────────────────────────────
 [tool.ruff]
 target-version = "py312"
 line-length = 100
@@ -63,8 +63,8 @@ fix = true
 
 [tool.ruff.lint]
 select = [
-    "E",    # pycodestyle errors
-    "W",    # pycodestyle warnings
+    "E",    # errores de pycodestyle
+    "W",    # advertencias de pycodestyle
     "F",    # pyflakes
     "I",    # isort
     "UP",   # pyupgrade

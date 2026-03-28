@@ -11,24 +11,24 @@ MarketSense no es un chatbot genérico — es un **analista experto** capaz de c
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    Frontend (Next.js)                        │
-│              Dashboard financiero interactivo                │
+│              Panel financiero interactivo                     │
 └──────────────────────┬──────────────────────────────────────┘
-                       │ REST API
+                       │ API REST
 ┌──────────────────────▼──────────────────────────────────────┐
 │                   Backend (FastAPI)                           │
 │  ┌─────────────────────────────────────────────────────┐     │
-│  │            LangGraph Agent Orchestrator              │     │
-│  │  ┌──────────┐  ┌──────────┐  ┌───────────────────┐  │     │
-│  │  │ SQL Tool │  │News Tool │  │ Code Exec Tool    │  │     │
-│  │  └────┬─────┘  └────┬─────┘  └───────┬───────────┘  │     │
-│  └───────┼──────────────┼────────────────┼──────────────┘     │
-│          │              │                │                     │
-│    ┌─────▼─────┐  ┌─────▼─────┐  ┌──────▼──────┐             │
-│    │ RDS (SQL) │  │ News APIs │  │ Sandbox Env │             │
-│    └───────────┘  └───────────┘  └─────────────┘             │
+│  │         Orquestador de Agentes LangGraph             │     │
+│  │  ┌────────────┐  ┌────────────────┐  ┌───────────┐  │     │
+│  │  │Herram. SQL │  │Herram. Noticias│  │Herram. Cód│  │     │
+│  │  └─────┬──────┘  └──────┬─────────┘  └─────┬─────┘  │     │
+│  └────────┼────────────────┼───────────────────┼────────┘     │
+│           │                │                   │               │
+│    ┌──────▼──────┐  ┌──────▼──────┐  ┌────────▼────────┐     │
+│    │  RDS (SQL)  │  │ APIs Notic. │  │ Entorno Sandbox │     │
+│    └─────────────┘  └─────────────┘  └─────────────────┘     │
 │                                                               │
 │    ┌─────────────────────────────────────────────┐            │
-│    │        RAG Pipeline (FAISS + Embeddings)     │            │
+│    │     Pipeline RAG (FAISS + Embeddings)        │            │
 │    └─────────────────────────────────────────────┘            │
 └──────────────────────────────────────────────────────────────┘
                        │
@@ -45,12 +45,12 @@ MarketSense no es un chatbot genérico — es un **analista experto** capaz de c
 ```
 ├── backend/          # Código Python principal
 │   ├── agents/       # Agentes LangGraph
-│   ├── tools/        # Tools: SQL, búsqueda, ejecución de código
+│   ├── tools/        # Herramientas: SQL, búsqueda, ejecución de código
 │   ├── etl/          # Pipelines de ingesta de datos (S&P 500)
-│   ├── rag/          # Retrieval-Augmented Generation
+│   ├── rag/          # Generación Aumentada por Recuperación (RAG)
 │   ├── db/           # Modelos SQLAlchemy y conexión a RDS
 │   └── api/          # API FastAPI
-├── frontend/         # App Next.js (dashboard)
+├── frontend/         # Aplicación Next.js (panel de control)
 ├── notebooks/        # Jupyter notebooks de exploración
 ├── tests/            # Tests unitarios e integración
 └── infra/            # Infraestructura (Docker, IaC)
@@ -58,18 +58,18 @@ MarketSense no es un chatbot genérico — es un **analista experto** capaz de c
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Inicio Rápido
 
 ### Prerrequisitos
 
 - Python 3.10+
 - Node.js 18+
-- AWS Account con acceso a Bedrock
+- Cuenta de AWS con acceso a Bedrock
 
 ### 1. Clonar y configurar entorno
 
 ```bash
-git clone <repo-url>
+git clone <url-del-repo>
 cd IA-Generativa
 
 # Configurar variables de entorno
@@ -81,10 +81,10 @@ cp .env.example .env
 
 ```bash
 # Backend (Python)
-make install
+make instalar
 
 # Frontend (Next.js)
-make install-frontend
+make instalar-frontend
 ```
 
 ### 3. Desarrollo
@@ -103,7 +103,7 @@ make notebook
 ### 4. Calidad de código
 
 ```bash
-make lint    # Linter + formatter (ruff)
+make lint    # Linter + formateador (ruff)
 make test    # Tests (pytest)
 ```
 
@@ -115,7 +115,7 @@ make test    # Tests (pytest)
 |---|---|
 | LLM | AWS Bedrock (Claude 3.5 Sonnet) |
 | Orquestación | LangGraph 1.1 + LangChain 1.2 |
-| Backend API | FastAPI + Uvicorn |
+| API Backend | FastAPI + Uvicorn |
 | Base de Datos | PostgreSQL (AWS RDS) + SQLAlchemy 2.0 |
 | RAG | FAISS + Embeddings |
 | ETL | Python + Pandas + yfinance |
