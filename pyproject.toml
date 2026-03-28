@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=70.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "marketsense"
+version = "0.1.0"
+description = "AI-powered financial analyst platform using LangGraph agents on AWS Bedrock"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Giancarlos" }]
+
+dependencies = [
+    # ── LLM Orchestration ──────────────────────────────────────
+    "langgraph>=1.1,<2",
+    "langchain>=1.2,<2",
+    "langchain-aws",                # LangChain <-> AWS Bedrock integration
+    "langchain-community",          # Document loaders, vector stores, etc.
+
+    # ── AWS SDK ────────────────────────────────────────────────
+    "boto3",                        # Bedrock Runtime, RDS, S3
+
+    # ── Database ───────────────────────────────────────────────
+    "sqlalchemy>=2.0,<3",
+    "psycopg2-binary",              # PostgreSQL driver
+
+    # ── API ────────────────────────────────────────────────────
+    "fastapi",
+    "uvicorn[standard]",            # ASGI server
+
+    # ── Data & Config ──────────────────────────────────────────
+    "pydantic>=2.0,<3",
+    "python-dotenv",
+
+    # ── RAG / Embeddings ───────────────────────────────────────
+    "faiss-cpu",                    # Local vector store for dev
+
+    # ── Data & ETL ─────────────────────────────────────────────
+    "pandas",
+    "yfinance",                     # S&P 500 market data
+    "requests",                     # HTTP calls (news APIs, etc.)
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio",
+    "ruff>=0.9",
+    "jupyter",
+    "ipykernel",
+    "httpx",                        # Async test client for FastAPI
+]
+
+[tool.setuptools.packages.find]
+include = ["backend*", "tests*"]
+
+# ── Ruff (linter + formatter) ─────────────────────────────────
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+fix = true
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# ── Pytest ─────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
