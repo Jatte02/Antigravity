@@ -15,7 +15,7 @@ dependencies = [
     # ── Orquestación de LLMs ──────────────────────────────────
     "langgraph>=1.1,<2",
     "langchain>=1.2,<2",
-    "langchain-aws",                # Integración LangChain <-> AWS Bedrock
+    "langchain-google-genai",       # Integración LangChain <-> Google Gemini
     "langchain-community",          # Cargadores de documentos, vector stores, etc.
 
     # ── SDK de AWS ────────────────────────────────────────────

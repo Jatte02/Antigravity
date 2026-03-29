@@ -13,7 +13,6 @@ Pasos:
 """
 
 import argparse
-import sys
 import time
 from pathlib import Path
 
@@ -170,7 +169,6 @@ def cargar_csv(archivo: str, config: dict) -> int:
         ]
 
     # Filtrar columnas del DataFrame que no existen en la tabla
-    columnas_validas = [c for c in df.columns if c.lower() in columnas_tabla]
     df = df[[c for c in df.columns if c.lower() in columnas_tabla]]
     df.columns = [c.lower() for c in df.columns]
 
@@ -192,7 +190,11 @@ def cargar_csv(archivo: str, config: dict) -> int:
 
 
 def cargar_precios() -> int:
-    """Carga todos los CSVs de price_data/ en la tabla precios_historicos."""
+    """Carga todos los CSVs de price_data/ en la tabla precios_historicos.
+
+    Cada archivo se procesa de forma independiente para que un error en un
+    ticker no rompa la carga de los demás (fix del bug de transaction rollback).
+    """
     price_dir = DATA_DIR / "price_data"
     archivos = sorted(price_dir.glob("*.csv"))
 
@@ -203,20 +205,46 @@ def cargar_precios() -> int:
         conn.execute(text("TRUNCATE TABLE precios_historicos RESTART IDENTITY CASCADE"))
 
     total = 0
+    errores = 0
     for i, archivo in enumerate(archivos, 1):
-        df = pd.read_csv(archivo)
-        df.columns = [c.lower() for c in df.columns]
+        try:
+            df = pd.read_csv(archivo)
+            df.columns = [c.lower() for c in df.columns]
 
-        # Asegurar que 'date' sea tipo fecha
-        df["date"] = pd.to_datetime(df["date"]).dt.date
+            # Extraer símbolo del nombre del archivo si no hay columna 'symbol'
+            if "symbol" not in df.columns:
+                df["symbol"] = archivo.stem  # AAPL.csv → "AAPL"
 
-        df.to_sql("precios_historicos", engine, if_exists="append", index=False, chunksize=5000)
-        total += len(df)
+            # Asegurar que 'date' sea tipo fecha
+            df["date"] = pd.to_datetime(df["date"]).dt.date
 
-        if i % 50 == 0 or i == len(archivos):
-            _log(f"    Progreso: {i}/{len(archivos)} tickers ({total:,} filas)")
+            # Eliminar columna 'id' si existe
+            if "id" in df.columns:
+                df = df.drop(columns=["id"])
 
-    _log(f"  ✅ {total:,} filas → 'precios_historicos'")
+            # Mantener solo columnas válidas para la tabla
+            columnas_validas = ["symbol", "date", "open", "high", "low", "close", "volume"]
+            df = df[[c for c in columnas_validas if c in df.columns]]
+
+            df.to_sql(
+                "precios_historicos",
+                engine,
+                if_exists="append",
+                index=False,
+                chunksize=5000,
+            )
+            total += len(df)
+
+        except Exception as e:
+            errores += 1
+            _log(f"    ⚠️ Error en {archivo.name}: {e}")
+            # Disponer el engine para resetear conexiones en estado inválido
+            engine.dispose()
+
+        if i % 100 == 0 or i == len(archivos):
+            _log(f"    Progreso: {i}/{len(archivos)} tickers ({total:,} filas, {errores} errores)")
+
+    _log(f"  ✅ {total:,} filas → 'precios_historicos' ({errores} archivos con error)")
     return total
 
 
