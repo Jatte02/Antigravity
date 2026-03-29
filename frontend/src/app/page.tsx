@@ -52,7 +52,7 @@ export default function Dashboard() {
     setChatResponse(null);
 
     try {
-      const resp = await fetch("http://localhost:8000/api/chat", {
+      const resp = await fetch("http://localhost:8000/api/chat/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: chatMessage }),

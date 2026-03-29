@@ -38,8 +38,8 @@ def _crear_mensajes_sistema() -> SystemMessage:
             "Usa tus herramientas para satisfacer los requerimientos del usuario. "
             "1. Si necesitas datos numéricos exactos de precios asocia PostgreSQL usando SQL. "
             "2. Usa ver_esquema_db primero para conocer las tablas. "
-            "3. En tus respuestas usa formato amigable Markdown, estructurado, e incluye tu raciocinio. "
-            "4. Sé exhaustivo combinando búsqueda de precios, caídas o análisis matemáticos (CAGR, correlaciones)."
+            "3. Oculta todo tu proceso matemático o rastro lógico (raciocinio). "
+            "4. En tus entregas al usuario limítate ÚNICAMENTE a darle la respuesta final de forma directa y conversacional breve."
         )
     )
 
@@ -48,9 +48,13 @@ class FinancialAnalystAgent:
     """Clase del Agente ReAct construida sobre LangGraph."""
 
     def __init__(self):
-        # 1. Escogemos el modelo Gemini 1.5 Pro (o el modelo Gemini que prefieras)
+        # Para que el backend no colapse si la variable está vacía en .env
+        api_key = os.getenv("GEMINI_API_KEY") or "mock_key_solo_para_arrancar"
+        
+        # 1. Escogemos el modelo Gemini 2.5 Flash
         llm = ChatGoogleGenerativeAI(
-            model="gemini-1.5-pro",
+            model="gemini-2.5-flash",
+            api_key=api_key,
             temperature=0,
             max_retries=2,
         )

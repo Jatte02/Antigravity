@@ -28,8 +28,19 @@ async def chat_con_agente(request: ChatRequest):
         # Obtenemos el último mensaje (que es donde reside el output final de AI)
         ultimo_ai_mensaje = mensajes[-1].content
         
+        # Corrección exclusiva para Gemini 2.x: Extraer el texto de la lista de metadatos
+        texto_final = ""
+        if isinstance(ultimo_ai_mensaje, list):
+            for bloque in ultimo_ai_mensaje:
+                if isinstance(bloque, dict) and 'text' in bloque:
+                    texto_final += bloque['text']
+            if not texto_final:
+                texto_final = str(ultimo_ai_mensaje)
+        else:
+            texto_final = str(ultimo_ai_mensaje)
+            
         return ChatResponse(
-            response=str(ultimo_ai_mensaje),
+            response=texto_final,
             conversation_id=conversation_id,
         )
     except Exception as e:
